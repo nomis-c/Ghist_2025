@@ -1,0 +1,13 @@
+dataset: "singlesweep_bg"
+vcf_file: "resources/data/single_sweep_background/GHIST_2025_singlesweep.growth_bg.21.testing.vcf.gz"
+chromosome: "21"
+
+# Tajima's D parameters
+window_size: [1_000, 10_000, 50_000, 100_000]
+step_size_ratio: [0.1, 0.5, 1]
+
+moving_window_size: [40, 50, 75, 95, 100, 125]
+moving_step_size_ratio: [0.3, 0.5, 1]
+
+cutoff: [0.005]
+winsize: [40_000, 45_000, 50_000]

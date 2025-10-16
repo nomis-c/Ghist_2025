@@ -1,0 +1,13 @@
+dataset: "multisweep_bg"
+vcf_file: "resources/data/multiple_sweep_background/GHIST_2025_multisweep.growth_bg.21.testing.vcf.gz"
+chromosome: "21"
+
+# Tajima's D parameters
+window_size: [1_000, 10_000 , 100_000, 1_000_000]
+step_size_ratio: [0.1, 0.2, 0.5, 1]
+
+moving_window_size: [40, 50, 100]
+moving_step_size_ratio: [0.1,0.3, 0.5, 1]
+
+cutoff: [0.05]
+winsize: [50_000, 100_000, 500_000, 1_000_000]

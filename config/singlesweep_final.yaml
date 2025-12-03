@@ -1,0 +1,13 @@
+dataset: "singlesweep"
+vcf_file: "resources/data/single_sweep/GHIST_2025_singlesweep.15.final.vcf.gz"
+chromosome: "15"
+
+# Tajima's D parameters
+window_size: [100_000]
+step_size_ratio: [0.5, 1]
+
+moving_window_size: [100]
+moving_step_size_ratio: [0.5, 1]
+
+cutoff: [0.005]
+winsize: []

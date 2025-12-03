@@ -1,0 +1,162 @@
+# Copyright 2025 Xin Huang and Simon Chen
+#
+# GNU General Public License v3.0
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, please see
+#
+#    https://www.gnu.org/licenses/gpl-3.0.en.html
+
+
+include: "rules/selscan.smk"
+include: "rules/moving_tajima_d.smk"
+include: "rules/windowed_tajima_d.smk"
+
+rule all:
+    input:
+        # Moving Tajima D - Manhattan plots
+        expand(
+            "results/plots/moving_tajima_d/{dataset}/chr{i}.{window}snps_{step}_{cutoff}.moving_tajima_d.manhattan.png",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["moving_window_size"],
+            step=config["moving_step_size_ratio"],
+            cutoff=config["cutoff"]
+        ),
+        # Moving Tajima D - Pyplot
+        expand(
+            "results/plots/moving_tajima_d/{dataset}/chr{i}.{window}snps_{step}_{cutoff}.moving_tajima_d.pyplot.png",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["moving_window_size"],
+            step=config["moving_step_size_ratio"],
+            cutoff=config["cutoff"]
+        ),
+        # Moving Tajima D - Candidate BED files
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{window}snps_{step}_{cutoff}.moving_tajima_d.selection_regions.bed",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["moving_window_size"],
+            step=config["moving_step_size_ratio"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("multisweep") else [],
+        # Windowed Tajima D - Manhattan plots
+        expand(
+            "results/plots/windowed_tajima_d/{dataset}/chr{i}.{window}bp_{step}_{cutoff}.windowed_tajima_d.manhattan.png",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["window_size"],
+            step=config["step_size_ratio"],
+            cutoff=config["cutoff"]
+        ),
+        # Windowed Tajima D - Pyplot
+        expand(
+            "results/plots/windowed_tajima_d/{dataset}/chr{i}.{window}bp_{step}_{cutoff}.windowed_tajima_d.pyplot.png",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["window_size"],
+            step=config["step_size_ratio"],
+            cutoff=config["cutoff"]
+        ),
+        # Windowed Tajima D - Candidate BED files
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{window}bp_{step}_{cutoff}.windowed_tajima_d.selection_regions.bed",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["window_size"],
+            step=config["step_size_ratio"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("multisweep") else [],
+        # Selscan - Manhattan plots
+        expand(
+            "results/plots/selscan/{dataset}/chr{i}.{winsize}bp_{cutoff}.{method}_{maf}.manhattan.png",
+            dataset=config["dataset"],
+            method=["ihs", "nsl"],
+            maf=[0.00],
+            i=config["chromosome"],
+            winsize=config["winsize"],
+            cutoff=config["cutoff"]
+        ),
+        # Selscan - Pyplot
+        expand(
+            "results/plots/selscan/{dataset}/chr{i}.{winsize}bp_{cutoff}.{method}_{maf}.pyplot_windows.png",
+            dataset=config["dataset"],
+            method=["ihs", "nsl"],
+            maf=[0.00],
+            i=config["chromosome"],
+            winsize=config["winsize"],
+            cutoff=config["cutoff"]
+        ),
+        # Selscan - Candidate BED files
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{winsize}bp_{cutoff}.{method}_{maf}.window_selection_regions.bed",
+            dataset=config["dataset"],
+            method=["ihs", "nsl"],
+            maf=[0.00],
+            i=config["chromosome"],
+            winsize=config["winsize"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("multisweep") else [],
+        # Single region files - only for singlesweep
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{window}bp_{step}_{cutoff}.windowed_tajima_d.single_region.bed",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["window_size"],
+            step=config["step_size_ratio"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("singlesweep") else [],
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{winsize}bp_{cutoff}.{method}_{maf}.single_region.bed",
+            dataset=config["dataset"],
+            method=["ihs", "nsl"],
+            maf=[0.00],
+            i=config["chromosome"],
+            winsize=config["winsize"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("singlesweep") else [],
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{window}snps_{step}_{cutoff}.moving_tajima_d.single_region.bed",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["moving_window_size"],
+            step=config["moving_step_size_ratio"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("singlesweep") else [],
+        # Merged bed files - only for multisweep
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{window}snps_{step}_{cutoff}.moving_tajima_d.selection_regions_merged.bed",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["moving_window_size"],
+            step=config["moving_step_size_ratio"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("multisweep") else [],
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{window}bp_{step}_{cutoff}.windowed_tajima_d.selection_regions_merged.bed",
+            dataset=config["dataset"],
+            i=config["chromosome"],
+            window=config["window_size"],
+            step=config["step_size_ratio"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("multisweep") else [],
+        expand(
+            "results/selection_candidates/{dataset}/chr{i}.{winsize}bp_{cutoff}.{method}_{maf}.window_selection_regions_merged.bed",
+            dataset=config["dataset"],
+            method=["ihs", "nsl"],
+            maf=[0.00],
+            i=config["chromosome"],
+            winsize=config["winsize"],
+            cutoff=config["cutoff"]
+        ) if config["dataset"].startswith("multisweep") else [],

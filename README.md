@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This repository contains a Snakemake workflow designed to detect selective sweeps for the GHIST 2025 competitionn (https://www.synapse.org/Synapse:syn65877330/wiki/631478). 
+This repository contains a Snakemake workflow designed to detect selective sweeps for the GHIST 2025 competition (https://www.synapse.org/Synapse:syn65877330/wiki/631478). 
 
 In the sweep detection category, 4 challenges exist:
  - singlesweep 
